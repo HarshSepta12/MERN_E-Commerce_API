@@ -13,13 +13,17 @@ const app = express();
 
 app.use(express.json()); 
 // CORS Configuration
-app.use(
-  cors({
-    origin: "http://localhost:5173", // React app's URL (frontend)
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // If you need to send cookies with requests
-  })
-);
+app.use(cors({
+  origin: function(origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
 
 // Home route (for testing)
 app.get("/", (req, res) => res.json({ message: "This is home route" }));
