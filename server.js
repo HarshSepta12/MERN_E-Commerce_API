@@ -12,18 +12,14 @@ const app = express();
 
 
 app.use(express.json()); 
-// CORS Configuration
+
+
 app.use(cors({
-  origin: function(origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
-}));
+  origin:true,
+  methods:[ "GET","POST","PUT","DELETE"],
+  credentials:true
+}))
+
 
 // Home route (for testing)
 app.get("/", (req, res) => res.json({ message: "This is home route" }));
